@@ -9,6 +9,9 @@
 </head>
 <body>
 
+    <h1>{{ $question->question_text }}</h1>
+
+
     @if (!$question->yes_child_id || !$question->no_child_id)
     <h2>Add a New Question</h2>
     <form action="{{ route('decision_tree.add_question') }}" method="POST">
@@ -26,7 +29,6 @@
         <button type="submit">Add Question</button>
     </form>
     @else
-    <h1>{{ $question->question_text }}</h1>
 
     <a href="{{ route('decision_tree.show_question', ['id' => $question->yes_child_id]) }}">Yes</a>
     <a href="{{ route('decision_tree.show_question', ['id' => $question->no_child_id]) }}">No</a>

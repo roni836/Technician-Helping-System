@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\BrandProblem;
 use App\Models\Problem;
 use App\Models\Question;
 use App\Models\QuestionTree;
@@ -20,19 +21,18 @@ class DecisionTreeController extends Controller
 
     public function show(Request $request)
     {
-        $brand = Brand::findOrFail($request->input('brand_id'));
-        $problem = Problem::findOrFail($request->input('problem_id'));
-
-        $tree = QuestionTree::where('brand_id', $brand->id)
-            ->where('problem_id', $problem->id)
+        $brandProblem = BrandProblem::where('brand_id', $request->input('brand_id'))
+            ->where('problem_id', $request->input('problem_id'))
             ->first();
 
-        if (!$tree) {
+        if (!$brandProblem) {
             return redirect()->back()->with('error', 'No decision tree found for this combination.');
         }
 
+        $tree = $brandProblem->questionTree;
         $question = $tree->rootQuestion;
-        return view('decision_tree.show', compact('question', 'brand', 'problem'));
+
+        return view('decision_tree.showNew', compact('question'));
     }
 
     public function answer(Request $request, $id)
@@ -78,5 +78,17 @@ class DecisionTreeController extends Controller
         $currentQuestion->save();
 
         return redirect()->back()->with('success', 'New question added successfully.');
+    }
+
+    public function getProblems(Request $request)
+    {
+        $brand = Brand::findOrFail($request->input('brand_id'));
+        $problems = Problem::whereIn('id', function ($query) use ($brand) {
+            $query->select('problem_id')
+                ->from('brand_problems')
+                ->where('brand_id', $brand->id);
+        })->get();
+
+        return response()->json($problems);
     }
 }

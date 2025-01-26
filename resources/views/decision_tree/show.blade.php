@@ -4,6 +4,7 @@
     <title>Decision Tree</title>
 </head>
 <body>
+    {{dd($question)}}
     <h1>{{ $question->question_text }}</h1>
 
     <form action="{{ route('decision_tree.answer', $question->id) }}" method="POST">
