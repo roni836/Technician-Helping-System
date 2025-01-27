@@ -26,11 +26,11 @@ class DecisionTreeController extends Controller
             ->first();
 
         if (!$brandProblem) {
-            return redirect()->back()->with('error', 'No decision tree found for this combination.');
+            return redirect()->route('decision_tree.start')->with('error', 'No decision tree found for this combination.');
         }
 
         $tree = $brandProblem->questionTree;
-        $question = $tree->rootQuestion;
+        $question = $tree->rootQuestion ?? null;
 
         if (!$question) {
             $problem_id = $request->input('problem_id');
