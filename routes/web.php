@@ -15,3 +15,4 @@ Route::get('/decision-tree/question/{id}', [DecisionTreeController::class, 'show
 Route::post('/decision-tree/question/{id}/answer', [DecisionTreeController::class, 'answer'])->name('decision_tree.answer');
 
 Route::post('/decision-tree/add-question', [DecisionTreeController::class, 'addQuestion'])->name('decision_tree.add_question');
+Route::post('/decision-tree/add-starting-question', [DecisionTreeController::class, 'addStartingQuestion'])->name('decision_tree.add__starting_question');

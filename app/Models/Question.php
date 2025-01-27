@@ -16,4 +16,7 @@ class Question extends Model
     {
         return $this->belongsTo(Question::class, 'no_child_id');
     }
+    public function questionTree(){
+        return $this->belongsTo(QuestionTree::class);
+    } 
 }

@@ -32,7 +32,13 @@ class DecisionTreeController extends Controller
         $tree = $brandProblem->questionTree;
         $question = $tree->rootQuestion;
 
-        return view('decision_tree.showNew', compact('question'));
+        if (!$question) {
+            $problem_id = $request->input('problem_id');
+
+            return view('decision_tree.showNew', compact('question', 'problem_id','brandProblem'));
+        }
+
+        return view('decision_tree.showNew', compact('question','brandProblem'));
     }
 
     public function answer(Request $request, $id)
@@ -76,6 +82,29 @@ class DecisionTreeController extends Controller
             $currentQuestion->no_child_id = $newQuestion->id;
         }
         $currentQuestion->save();
+
+        return redirect()->back()->with('success', 'New question added successfully.');
+    }
+
+    public function addStartingQuestion(Request $request)
+    {
+        $validated = $request->validate([
+            'new_question' => 'required|string|max:255',
+        ]);
+
+        $newQuestion = Question::create(
+            [
+                'question_text' => $validated['new_question']
+            ]
+        );
+
+        $brandProblemId = BrandProblem::where('problem_id', $request->problem_id)->first();
+        if ($newQuestion) {
+            QuestionTree::create([
+                'brand_problem_id' =>  $brandProblemId->id,
+                'question_id' => $newQuestion->id
+            ]);
+        }
 
         return redirect()->back()->with('success', 'New question added successfully.');
     }
