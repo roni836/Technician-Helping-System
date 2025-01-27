@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\CommonController;
 use App\Http\Controllers\DecisionTreeController;
 use Illuminate\Support\Facades\Route;
 
+
+Route::post('/brand', [CommonController::class, 'brandStore'])->name('brand.store');
+Route::post('/problem', [CommonController::class, 'problemStore'])->name('problem.store');
 
 Route::get('/decision-tree/start', [DecisionTreeController::class, 'start'])->name('decision_tree.start');
 Route::post('/decision-tree/problems', [DecisionTreeController::class, 'getProblems'])->name('decision_tree.get_problems');

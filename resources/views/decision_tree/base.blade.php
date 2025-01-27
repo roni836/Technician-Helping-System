@@ -3,7 +3,7 @@
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>@yield('title') | Servix</title>
+    <title>@yield('title') Servix</title>
 
 </head>
 
@@ -13,7 +13,7 @@
         <div class="flex-1 flex flex-col">
     
             <!-- Header -->
-            <header class="fixed top-0 w-full bg-white shadow-md z-50">
+            <header class="fixed top-0 w-full bg-white  border-teal-500 border-b z-50">
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-16">
                         <!-- Logo -->
@@ -52,7 +52,7 @@
             </header>
     
             <!-- Content -->
-            <div class="mt-16">
+            <div class="pt-16">
                 @yield('content')
                 @show
             </div>
