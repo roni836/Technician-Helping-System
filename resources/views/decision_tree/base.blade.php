@@ -6,7 +6,6 @@
     <title>@yield('title') Servix</title>
 
 </head>
-
 <body>
 
     <div class="min-h-screen flex flex-1 bg-gray-100">
@@ -18,12 +17,12 @@
                     <div class="flex items-center justify-between h-16">
                         <!-- Logo -->
                         <div class="flex-shrink-0">
-                            <a href="/" class="text-2xl font-bold text-gray-800">Servix Technicians</a>
+                            <a href="/" class="text-2xl font-bold text-gray-800"><span class="text-teal-500">Servix</span> Technicians</a>
                         </div>
     
                         <!-- Navigation Links (Hidden on small screens) -->
                         <nav class="hidden md:flex space-x-8">
-                            <a href="#home" class="text-gray-600 hover:text-gray-800">Home</a>
+                            <a href="{{url('')}}" class="text-gray-600 hover:text-gray-800">Start</a>
                             <a href="#about" class="text-gray-600 hover:text-gray-800">About</a>
                             <a href="#services" class="text-gray-600 hover:text-gray-800">Services</a>
                             <a href="#contact" class="text-gray-600 hover:text-gray-800">Contact</a>
@@ -43,7 +42,7 @@
                 <!-- Mobile Menu -->
                 <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
                     <nav class="flex flex-col space-y-1 p-4">
-                        <a href="#home" class="text-gray-600 hover:text-gray-800">Home</a>
+                        <a href="{{url('')}}" class="text-gray-600 hover:text-gray-800">Start</a>
                         <a href="#about" class="text-gray-600 hover:text-gray-800">About</a>
                         <a href="#services" class="text-gray-600 hover:text-gray-800">Services</a>
                         <a href="#contact" class="text-gray-600 hover:text-gray-800">Contact</a>
