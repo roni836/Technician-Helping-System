@@ -1,6 +1,6 @@
 @extends('decision_tree.base')
 @section('content')
-<div class="flex items-center justify-center min-h-screen pt-20 px-4">
+<div class="flex items-center justify-center min-h-screen  px-4">
     <div class="bg-white border border-teal-700 rounded-lg p-8 max-w-md w-full">
         <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Login to your account</h2>
 

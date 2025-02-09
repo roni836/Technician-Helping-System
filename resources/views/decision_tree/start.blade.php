@@ -1,6 +1,7 @@
 @extends('decision_tree.base')
 @section('content')
     @auth
+    @if(Auth::user()->is_admin)
     <div class="flex mt-5 p-10">
         <button id="openModalButton"
             class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
@@ -13,7 +14,8 @@
             Add New Brand
         </button>
     </div>
-    <div class="w-1/3 mx-auto bg-white p-6 rounded-lg shadow  border border-teal-600 ">
+    @endif
+    <div class="w-1/3 mx-auto bg-white p-6 rounded-lg shadow  border border-teal-600 mt-10 ">
 
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Select Brand and Problem</h1>
         <form action="{{ route('decision_tree.show') }}" method="POST">

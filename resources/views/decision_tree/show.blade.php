@@ -3,6 +3,7 @@
 @section('content')
     <div class="bg-teal-100 font-sans antialiased flex flex-col  items-center h-screen p-4">
         {{-- {{dd($question)}} --}}
+        @if(Auth::user()->is_admin)
         <h1 class="text-3xl font-bold text-center text-teal-800 mb-6">{{ $question->question_text }}</h1>
 
         <form action="{{ route('decision_tree.answer', $question->id) }}" method="POST">
@@ -37,4 +38,8 @@
             </form>
         @endif
     </div>
+    @else
+    <script>window.location = "/";</script>
+    @endif
+    @endauth
 @endsection

@@ -28,6 +28,12 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Protected route
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DecisionTreeController::class, 'start'])->name('dashboard');
+});
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/decision-tree/question/{id}', [DecisionTreeController::class, 'showQuestion'])->name('decision_tree.show_question');
+    Route::post('/decision-tree/answer/{id}', [DecisionTreeController::class, 'answer'])->name('decision_tree.answer');
 });
