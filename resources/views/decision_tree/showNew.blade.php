@@ -3,8 +3,7 @@
 @section('content')
     <div class="bg-teal-100 font-sans antialiased flex flex-col  items-center h-screen p-4 pt-10">
        
-    @auth
-    @if(Auth::user()->is_admin)
+  
         {{-- {{dd($question)}} --}}
         <span class="text-xl text-start text-teal-700 font-medium mb-4">
             Brand Name: {{ $brandProblem->brand->name ?? 'Not Available' }}
@@ -66,8 +65,5 @@
 
     </div>
 
-    @else
-    <script>window.location = "/";</script>
-    @endif
-    @endauth
+   
 @endsection
