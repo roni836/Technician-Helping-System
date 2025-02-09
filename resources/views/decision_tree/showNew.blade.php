@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="bg-teal-100 font-sans antialiased flex flex-col  items-center h-screen p-4 pt-10">
+       
 
         {{-- {{dd($question)}} --}}
         <span class="text-xl text-start text-teal-700 font-medium mb-4">
