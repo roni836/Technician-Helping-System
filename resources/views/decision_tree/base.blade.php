@@ -27,6 +27,18 @@
                             <a href="#services" class="text-gray-600 hover:text-gray-800">Services</a>
                             <a href="#contact" class="text-gray-600 hover:text-gray-800">Contact</a>
                         </nav>
+                        @auth
+                         <form action="{{ route('logout') }}" method="POST">
+    @csrf
+    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+        Logout
+    </button>
+</form>
+@else
+<a href="{{ route('login') }}" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">
+    Login
+</a>
+@endauth
     
                         <!-- Hamburger Menu (Visible on small screens) -->
                         <div class="md:hidden">
@@ -46,6 +58,18 @@
                         <a href="#about" class="text-gray-600 hover:text-gray-800">About</a>
                         <a href="#services" class="text-gray-600 hover:text-gray-800">Services</a>
                         <a href="#contact" class="text-gray-600 hover:text-gray-800">Contact</a>
+                        @auth
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg text-center hover:bg-red-600">
+                Logout
+            </button>
+        </form>
+        @else
+        <a href="{{ route('login') }}" class="bg-teal-500 text-white px-4 py-2 rounded-lg text-center hover:bg-teal-600">
+            Login
+        </a>
+        @endauth
                     </nav>
                 </div>
             </header>

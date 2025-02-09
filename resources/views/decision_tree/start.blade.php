@@ -1,6 +1,6 @@
 @extends('decision_tree.base')
 @section('content')
-
+    @auth
     <div class="flex mt-5 p-10">
         <button id="openModalButton"
             class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
@@ -102,7 +102,7 @@
             </form>
         </div>
     </div>
-
+   
 
 
     <script>
@@ -178,4 +178,10 @@
             }
         });
     </script>
+
+@else
+<div class="text-center text-red-500 text-xl font-bold mt-10">
+    You must be logged in to access this page.
+</div>
+@endif
 @endsection
