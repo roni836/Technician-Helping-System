@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\DecisionTreeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,5 +36,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/decision-tree/question/{id}', [DecisionTreeController::class, 'showQuestion'])->name('decision_tree.show_question');
+   Route::get('/admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
+   Route::get('/admin/users',[AdminController::class,'index'])->name('admin.users');
+   Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+   Route::post('/admin/user/{id}/update', [AdminController::class, 'update'])->name('admin.update');
+   Route::delete('/admin/user/{id}/delete', [AdminController::class, 'destroy'])->name('admin.delete');
+   
    
 });

@@ -26,20 +26,26 @@
                             <a href="#about" class="text-gray-600 hover:text-gray-800">About</a>
                             <a href="#services" class="text-gray-600 hover:text-gray-800">Services</a>
                             <a href="#contact" class="text-gray-600 hover:text-gray-800">Contact</a>
+                            @auth
+                            @if(auth()->user()->is_admin)
+                            <a href="{{route('admin.dashboard')}}"class="text-gray-600 hover:text-gray-800"> Dashboard</a>
+                            @endif
+                            @endauth
+               
                         </nav>
                         @auth
                          <form action="{{ route('logout') }}" method="POST">
-    @csrf
-    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-        Logout
-    </button>
-</form>
-@else
-<a href="{{ route('login') }}" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">
-    Login
-</a>
-@endauth
-    
+                            @csrf
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                                Logout
+                            </button>
+                        </form>
+                        @else
+                        <a href="{{ route('login') }}" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">
+                            Login
+                        </a>
+                        @endauth
+              
                         <!-- Hamburger Menu (Visible on small screens) -->
                         <div class="md:hidden">
                             <button id="menu-toggle" class="text-gray-800 focus:outline-none">
@@ -59,18 +65,24 @@
                         <a href="#services" class="text-gray-600 hover:text-gray-800">Services</a>
                         <a href="#contact" class="text-gray-600 hover:text-gray-800">Contact</a>
                         @auth
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg text-center hover:bg-red-600">
-                Logout
-            </button>
-        </form>
-        @else
-        <a href="{{ route('login') }}" class="bg-teal-500 text-white px-4 py-2 rounded-lg text-center hover:bg-teal-600">
-            Login
-        </a>
-        @endauth
+                        @if(auth()->user()->is_admin)
+                        <a href="{{route('admin.dashboard')}}"class="text-gray-800">Dashboard</a>
+                        @endif
+                        @endauth
                     </nav>
+                    @auth
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg text-center hover:bg-red-600">
+                            Logout
+                        </button>
+                    </form>
+                    @else
+                    <a href="{{ route('login') }}" class="bg-teal-500 text-white px-4 py-2 rounded-lg text-center hover:bg-teal-600">
+                        Login
+                    </a>
+                    @endauth
+                    
                 </div>
             </header>
     
