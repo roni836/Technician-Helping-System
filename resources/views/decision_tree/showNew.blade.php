@@ -18,6 +18,7 @@
 
                 @if (!$question->yes_child_id || !$question->no_child_id)
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">Add New Question</h2>
+                    @if(Auth::user()->is_admin)
                     <form action="{{ route('decision_tree.add_question') }}" method="POST">
                         @csrf
                         <input type="hidden" name="current_question_id" value="{{ $question->id }}">
@@ -38,6 +39,12 @@
                             class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 mt-5 w-1/3">Add
                             Question</button>
                     </form>
+                    @else
+                    <div class="flex justify-center items-center">
+                        <span class="text-red-500 text-lg font-semibold">Contact to Admin</span>
+                    </div>
+                    @endif
+                    
                 @else
                     <div class="flex justify-center space-x-4 mb-6">
                         <a href="{{ route('decision_tree.show_question', ['id' => $question->yes_child_id]) }}"

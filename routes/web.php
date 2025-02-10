@@ -35,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/decision-tree/question/{id}', [DecisionTreeController::class, 'showQuestion'])->name('decision_tree.show_question');
+    // Route::get('/decision-tree/question/{id}', [DecisionTreeController::class, 'showQuestion'])->name('decision_tree.show_question');
    Route::get('/admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
    Route::get('/admin/users',[AdminController::class,'index'])->name('admin.users');
    Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
