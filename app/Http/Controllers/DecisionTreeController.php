@@ -120,4 +120,23 @@ class DecisionTreeController extends Controller
 
         return response()->json($problems);
     }
+    public function editQuestion($id)
+{
+    $question = Question::findOrFail($id);
+    return view('decision_tree.edit', compact('question'));
+}
+
+public function updateQuestion(Request $request, $id)
+{
+    $validated = $request->validate([
+        'question_text' => 'required|string|max:255',
+    ]);
+
+    $question = Question::findOrFail($id);
+    $question->question_text = $validated['question_text'];
+    $question->save();
+
+    return redirect()->route('decision_tree.show_question', ['id' => $id])->with('success', 'Question updated successfully.');
+}
+
 }

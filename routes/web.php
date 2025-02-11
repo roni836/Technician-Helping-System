@@ -18,6 +18,8 @@ Route::post('/decision-tree/question/{id}/answer', [DecisionTreeController::clas
 
 Route::post('/decision-tree/add-question', [DecisionTreeController::class, 'addQuestion'])->name('decision_tree.add_question');
 Route::post('/decision-tree/add-starting-question', [DecisionTreeController::class, 'addStartingQuestion'])->name('decision_tree.add__starting_question');
+Route::get('/decision_tree/question/{id}/edit', [DecisionTreeController::class, 'editQuestion'])->name('decision_tree.edit_question');
+Route::post('/decision_tree/question/{id}/update', [DecisionTreeController::class, 'updateQuestion'])->name('decision_tree.update_question');
 
 
 

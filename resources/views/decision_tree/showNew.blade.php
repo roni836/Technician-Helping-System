@@ -12,8 +12,43 @@
             Problem: {{ $brandProblem->problem->name ?? 'Not Available' }}
         </span>
         <div class="bg-white p-8 rounded-lg shadow-lg border border-teal-300 max-w-lg w-full">
-            <h1 class="text-3xl font-bold text-center text-teal-800 mb-6">{{ $question->question_text ?? 'Not available'}}</h1>
+           
+         <div class="relative">
+            <h1 class=" text-2xl font-bold text-teal-800 mb-6 ">
+                {{ $question->question_text ?? 'Not available' }}
+            </h1>
+            <button onclick="openModal()" class=" absolute right-0 top-0 bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
+                Edit
+            </button>
+        </div>
+        
+        
 
+      
+
+            <div id="editModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                    <h2 class="text-2xl font-bold mb-4 text-teal-800">Edit Question</h2>
+                    <form action="{{ route('decision_tree.update_question', ['id' => $question->id]) }}" method="POST">
+                        @csrf
+                        <label for="question_text">Question Text:</label>
+                        <input type="text" name="question_text" id="question_text" value="{{ $question->question_text }}"
+                               class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-3"
+                               required>
+            
+                        <div class="flex justify-between">
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+                                Update
+                            </button>
+                            <button type="button" onclick="closeModal()"
+                                class="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-lg">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             @if ($question)
 
                 @if (!$question->yes_child_id || !$question->no_child_id)
@@ -71,6 +106,15 @@
         </div>
 
     </div>
+    <script>
+        function openModal() {
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+    </script>
+   
 
    
 @endsection
