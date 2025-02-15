@@ -48,6 +48,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
    Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
    Route::post('/admin/user/{id}/update', [AdminController::class, 'update'])->name('admin.update');
    Route::delete('/admin/user/{id}/delete', [AdminController::class, 'destroy'])->name('admin.delete');
-   
-   
+   Route::get('/admin/devices', [AdminController::class, 'manageDevices'])->name('admin.manageDevices');
+
+
 });
