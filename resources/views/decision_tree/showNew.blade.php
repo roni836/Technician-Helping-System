@@ -6,13 +6,17 @@
   
         {{-- {{dd($question)}} --}}
         <span class="text-xl text-start text-teal-700 font-medium mb-4">
+            Device Name: {{ $brandProblem->device->name ?? 'Not Available' }}
+        </span>
+        <span class="text-xl text-start text-teal-700 font-medium mb-4">
             Brand Name: {{ $brandProblem->brand->name ?? 'Not Available' }}
         </span>
         <span class="text-xl text-start text-teal-700 font-medium mb-4">
             Problem: {{ $brandProblem->problem->name ?? 'Not Available' }}
         </span>
+       
         <div class="bg-white p-8 rounded-lg shadow-lg border border-teal-300 max-w-lg w-full">
-           
+            @if(Auth::user()->is_admin)
          <div class="relative">
             <h1 class=" text-2xl font-bold text-teal-800 mb-6 ">
                 {{ $question->question_text ?? 'Not available' }}
@@ -21,21 +25,25 @@
                 Edit
             </button>
         </div>
-        
+        @endif
         
 
       
-
+        @if(Auth::user()->is_admin)
             <div id="editModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-96">
                     <h2 class="text-2xl font-bold mb-4 text-teal-800">Edit Question</h2>
-                    <form action="{{ route('decision_tree.update_question', ['id' => $question->id]) }}" method="POST">
+                        @if ($question)
+                        <form action="{{ route('decision_tree.update_question', ['id' => $question->id]) }}" method="POST">
+                   
+                    
+
                         @csrf
                         <label for="question_text">Question Text:</label>
                         <input type="text" name="question_text" id="question_text" value="{{ $question->question_text }}"
                                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-3"
                                required>
-            
+                         
                         <div class="flex justify-between">
                             <button type="submit"
                                 class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
@@ -47,8 +55,10 @@
                             </button>
                         </div>
                     </form>
+                    @endif
                 </div>
             </div>
+            @endif
             @if ($question)
 
                 @if (!$question->yes_child_id || !$question->no_child_id)

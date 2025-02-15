@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Device;
+use App\Models\ModelNo;
 use App\Models\BrandProblem;
+use App\Models\BrandModel;
 use App\Models\Problem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -27,13 +30,56 @@ class CommonController extends Controller
         return redirect()->back()->with('success', 'Brand added successfully!');
     }
 
+    public function deviceStore(Request $request){
+        $validator =Validator::make($request->all(),[
+          'name' => 'required|string|max:255',
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
+          Device::create([
+          'name' =>$request->name,
+        
+        ]);
+       
+        return redirect()->back()->with('success','Device added Successfully');
+    }
+
+    public function modelnoStore(Request $request){
+        $validator =Validator::make($request->all(),[
+          'model_number' => 'required|string|max:255',
+          'brand_id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
+          $modelNo = ModelNo::create([
+          'model_number' =>$request->model_number,
+         'brand_id' => $request->brand_id,
+        
+        ]);
+        if($modelNo){
+            BrandModel::create([
+                'brand_id' => $request->brand_id,
+                'modelno_id' =>$modelNo->id,
+                
+            ]);
+        }
+        return redirect()->back()->with('success','model added Successfully');
+    }
+
+    
     public function problemStore(Request $request)
-    {
+ {
+   
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'brand_id' => 'required',
+            'device_id' => 'required',
         ]);
-
+         
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
@@ -47,11 +93,14 @@ class CommonController extends Controller
         if($data){
             BrandProblem::create([
                 'brand_id' => $request->brand_id,
-                'problem_id' => $data->id
+                'problem_id' => $data->id,
+                'device_id' => $request->device_id,
             ]);
         }
 
         return redirect()->back()->with('success', 'Problem added successfully!');
     }
+   
+    
     
 }

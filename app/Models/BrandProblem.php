@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BrandProblem extends Model
 {
-    protected $fillable = ['brand_id', 'problem_id'];
+    protected $fillable = ['brand_id', 'problem_id','device_id'];
 
     public function brand()
     {
@@ -17,7 +17,11 @@ class BrandProblem extends Model
     {
         return $this->belongsTo(Problem::class);
     }
-
+    
+    public function device()
+    {
+        return $this->belongsTo(Device::class);
+    }
     public function questionTree()
     {
         return $this->hasOne(QuestionTree::class);

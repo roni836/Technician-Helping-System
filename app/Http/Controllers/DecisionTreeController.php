@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\BrandProblem;
+use App\Models\BrandModel;
 use App\Models\Problem;
 use App\Models\Question;
+use App\Models\Device;
+use App\Models\ModelNo;
 use App\Models\QuestionTree;
 use Illuminate\Http\Request;
 
@@ -15,14 +18,19 @@ class DecisionTreeController extends Controller
     {
         $brands = Brand::all();
         $problems = Problem::all();
+        $devices = Device::all();
+        $modelnos = ModelNo::all();
+      
+      
 
-        return view('decision_tree.start', compact('brands', 'problems'));
+        return view('decision_tree.start', compact('brands', 'problems','devices','modelnos'));
     }
 
     public function show(Request $request)
     {
         $brandProblem = BrandProblem::where('brand_id', $request->input('brand_id'))
             ->where('problem_id', $request->input('problem_id'))
+          ->where('device_id', $request->input('device_id')) 
             ->first();
 
         if (!$brandProblem) {
@@ -33,13 +41,37 @@ class DecisionTreeController extends Controller
         $question = $tree->rootQuestion ?? null;
 
         if (!$question) {
-            $problem_id = $request->input('problem_id');
+         $problem_id = $request->input('problem_id');
 
             return view('decision_tree.showNew', compact('question', 'problem_id','brandProblem'));
         }
 
         return view('decision_tree.showNew', compact('question','brandProblem'));
     }
+    public function showModel(Request $request)
+    {
+        $brandModel = BrandModel::where('brand_id', $request->input('brand_id'))
+            ->where('modelno_id', $request->input('modelno_id'))
+            ->first();
+          
+    
+        if (!$brandModel) {
+            return redirect()->route('decision_tree.start')->with('error', 'No decision tree found for this combination.');
+        }
+    
+        $tree = $brandModel->questionTree;
+        $question = $tree->rootQuestion ?? null;
+    
+        if (!$question) {
+            $modelno_id = $request->input('modelno_id');
+    
+            return view('decision_tree.showNew', compact('question', 'modelno_id', 'brandModel'));
+        }
+    
+        return view('decision_tree.showNew', compact('question', 'brandModel'));
+    }
+    
+
 
     public function answer(Request $request, $id)
     {

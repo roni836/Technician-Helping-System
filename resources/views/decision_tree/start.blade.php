@@ -2,6 +2,20 @@
 @section('content')
     @auth
     @if(Auth::user()->is_admin)
+
+    <div class="flex mt-5 p-10">
+        <button id="openDeviceModalButton"
+            class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+            Add New Device
+        </button>
+    </div>
+    <div class="flex mt-5 p-10">
+        <button id="openModelModalButton"
+            class="bg-teal-800 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+            Add New Model
+        </button>
+    </div>
+ 
     <div class="flex mt-5 p-10">
         <button id="openModalButton"
             class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
@@ -20,6 +34,24 @@
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Select Brand and Problem</h1>
         <form action="{{ route('decision_tree.show') }}" method="POST">
             @csrf
+            <label for="device">Device:</label>
+            <select name="device_id" id="device"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
+                <option value="">Select a Device</option>
+                @foreach ($devices as $device)
+                    <option value="{{ $device->id }}">{{ $device->name }}</option>
+                @endforeach
+            </select>
+            <label for="modelno">ModelNo:</label>
+            <select name="modelno_id" id="modelno"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
+                <option value="">Select ModelNo</option>
+                @foreach ($modelnos as $modelno)
+                    <option value="{{ $modelno->id }}">{{ $modelno->model_number }}</option>
+                @endforeach
+            </select>
+
+            
             <label for="brand">Brand:</label>
             <select name="brand_id" id="brand"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
@@ -65,6 +97,22 @@
                         @endif
                     </select>
                 </div>
+                <div class="mb-4">
+                    <label for="device_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        Device:
+                    </label>
+                    <select name="device_id"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">-- Select a Device --</option>
+                        @if ($devices->isNotEmpty())
+                            @foreach ($devices as $data)
+                                <option value="{{ $data->id }}" {{ old('device_id') == $data->id ? 'selected' : '' }}>
+                                    {{ $data->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
                 <div class="mb-6">
                     <label for="name" class="block font-medium text-gray-600 mb-2">Enter Problem:</label>
                     <input type="text" name="name" id="name" required
@@ -90,6 +138,7 @@
             <h1 class="text-2xl font-bold text-gray-800 mb-6">Add New Brand</h1>
             <form action="{{ route('brand.store') }}" method="POST">
                 @csrf
+               
                 <div class="mb-6">
                     <label for="brand_name" class="block font-medium text-gray-600 mb-2">Enter Brand Name:</label>
                     <input type="text" name="name" id="brand_name" required
@@ -104,7 +153,73 @@
             </form>
         </div>
     </div>
-   
+    <div id="deviceModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-8 shadow border rounded-lg w-96 relative">
+            <!-- Close Button -->
+            <button id="closedeviceModalButton" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
+                ✖
+            </button>
+
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Add New Device</h1>
+            <form action="{{ route('device.store') }}" method="POST">
+                @csrf
+                
+                <div class="mb-6">
+                    <label for="device_name" class="block font-medium text-gray-600 mb-2">Enter Device Name:</label>
+                    <input type="text" name="name" id="brand_name" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+                </div>
+                <div>
+                    <button type="submit"
+                        class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                        Save Device
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modelModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-8 shadow border rounded-lg w-96 relative">
+          
+            <button id="closeModelModalButton" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
+                ✖
+            </button>
+    
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Add Model No</h1>
+            <form action="{{ route('modelno.store') }}" method="POST">
+                @csrf
+                <div class="mb-4">
+                    <label for="brand_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        Brand:
+                    </label>
+                    <select name="brand_id"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">-- Select a Brand --</option>
+                        @if ($brands->isNotEmpty())
+                            @foreach ($brands as $modelNo)
+                                <option value="{{ $modelNo->id }}" {{ old('brand_id') == $modelNo->id ? 'selected' : '' }}>
+                                    {{ $modelNo->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label for="model_number" class="block font-medium text-gray-600 mb-2">Enter Model Number:</label>
+                    <input type="text" name="model_number" id="model_number" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+                </div>
+                <div>
+                    <button type="submit"
+                        class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                        Save Model
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
 
 
     <script>
@@ -132,8 +247,9 @@
             $('#start-btn').prop('disabled', !$(this).val());
         });
     </script>
-
+  
     <script>
+        // problem
         // Get modal elements
         const modal = document.getElementById('modal');
         const openModalButton = document.getElementById('openModalButton');
@@ -180,6 +296,55 @@
             }
         });
     </script>
+     
+     <script>
+        // device
+        // Get modal elements
+        const deviceModal = document.getElementById('deviceModal');
+        const openDeviceModalButton = document.getElementById('openDeviceModalButton');
+        const closeDeviceModalButton = document.getElementById('closedeviceModalButton');
+    
+        // Open modal
+        openDeviceModalButton.addEventListener('click', () => {
+            deviceModal.classList.remove('hidden');
+        });
+    
+        // Close modal
+        closeDeviceModalButton.addEventListener('click', () => {
+            deviceModal.classList.add('hidden');
+        });
+    
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', (e) => {
+            if (e.target === deviceModal) {
+                deviceModal.classList.add('hidden');
+            }
+        });
+    </script>
+
+<script>
+    // ModelNo Modal
+    const modelModal = document.getElementById('modelModal');
+    const openModelModalButton = document.getElementById('openModelModalButton');
+    const closeModelModalButton = document.getElementById('closeModelModalButton');
+
+    // Open modal
+    openModelModalButton.addEventListener('click', () => {
+        modelModal.classList.remove('hidden');
+    });
+
+    // Close modal
+    closeModelModalButton.addEventListener('click', () => {
+        modelModal.classList.add('hidden');
+    });
+
+    // Close modal when clicking outside the modal content
+    window.addEventListener('click', (e) => {
+        if (e.target === modelModal) {
+            modelModal.classList.add('hidden');
+        }
+    });
+</script>
 
 @else
 <div class="text-center text-red-500 text-xl font-bold mt-10">

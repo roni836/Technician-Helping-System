@@ -9,9 +9,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/brand', [CommonController::class, 'brandStore'])->name('brand.store');
 Route::post('/problem', [CommonController::class, 'problemStore'])->name('problem.store');
+Route::post('/device', [CommonController::class, 'deviceStore'])->name('device.store');
+Route::post('/modelno', [CommonController::class, 'modelnoStore'])->name('modelno.store');
+
 
 Route::get('/', [DecisionTreeController::class, 'start'])->name('decision_tree.start');
-Route::post('/decision-tree/problems', [DecisionTreeController::class, 'getProblems'])->name('decision_tree.get_problems');
+Route::post('/decision-tree/problems', [DecisionTreeController::class, 'getProblems'])->name('decision_tree.get_problems');Route::match(['get', 'post'], '/decision-tree/show-model', [DecisionTreeController::class, 'showModel'])
+->name('decision_tree.show_model');
+
 Route::match(['get','post'],'/decision-tree/show', [DecisionTreeController::class, 'show'])->name('decision_tree.show');
 Route::get('/decision-tree/question/{id}', [DecisionTreeController::class, 'showQuestion'])->name('decision_tree.show_question');
 Route::post('/decision-tree/question/{id}/answer', [DecisionTreeController::class, 'answer'])->name('decision_tree.answer');
