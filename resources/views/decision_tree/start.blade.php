@@ -3,33 +3,28 @@
     @auth
     @if(Auth::user()->is_admin)
 
-    <div class="flex mt-5 p-10">
+   
+    <div class="flex space-x-4 p-4 items-center justify-center mt-3">
         <button id="openDeviceModalButton"
             class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
             Add New Device
         </button>
-    </div>
-    <div class="flex mt-5 p-10">
         <button id="openModelModalButton"
             class="bg-teal-800 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
             Add New Model
         </button>
-    </div>
- 
-    <div class="flex mt-5 p-10">
         <button id="openModalButton"
             class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
             Add New Problem
         </button>
-    </div>
-    <div class="flex  px-10">
         <button id="openBrandModalButton"
             class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
             Add New Brand
         </button>
     </div>
+    
     @endif
-    <div class="w-1/3 mx-auto bg-white p-6 rounded-lg shadow  border border-teal-600 mt-10 ">
+    <div class="w-1/3 mx-auto bg-white p-6 rounded-lg shadow  border border-teal-600 mt-8 ">
 
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Select Brand and Problem</h1>
         <form action="{{ route('decision_tree.show') }}" method="POST">
@@ -42,6 +37,15 @@
                     <option value="{{ $device->id }}">{{ $device->name }}</option>
                 @endforeach
             </select>
+
+            <label for="brand">Brand:</label>
+            <select name="brand_id" id="brand"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
+                <option value="">Select a Brand</option>
+                @foreach ($brands as $brand)
+                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                @endforeach
+            </select>
             <label for="modelno">ModelNo:</label>
             <select name="modelno_id" id="modelno"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
@@ -52,14 +56,7 @@
             </select>
 
             
-            <label for="brand">Brand:</label>
-            <select name="brand_id" id="brand"
-                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
-                <option value="">Select a Brand</option>
-                @foreach ($brands as $brand)
-                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                @endforeach
-            </select>
+           
 
             <label for="problem">Problem:</label>
             <select name="problem_id" id="problem"
@@ -199,6 +196,22 @@
                         @if ($brands->isNotEmpty())
                             @foreach ($brands as $modelNo)
                                 <option value="{{ $modelNo->id }}" {{ old('brand_id') == $modelNo->id ? 'selected' : '' }}>
+                                    {{ $modelNo->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="device_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        Device:
+                    </label>
+                    <select name="device_id"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">-- Select a Device --</option>
+                        @if ($devices->isNotEmpty())
+                            @foreach ($devices as $modelNo)
+                                <option value="{{ $modelNo->id }}" {{ old('device_id') == $modelNo->id ? 'selected' : '' }}>
                                     {{ $modelNo->name }}
                                 </option>
                             @endforeach
