@@ -3,62 +3,70 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Brand;
 
 class BrandController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the brands.
      */
     public function index()
     {
-        //
+        $brands = Brand::all();
+        return view('admin.manage_brands', compact('brands'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Store a newly created brand in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'brand_name' => 'required|string|max:255',
+        ]);
+
+        Brand::create([
+            'name' => $request->brand_name,
+        ]);
+
+        return redirect()->route('brands.index')->with('success', 'Brand added successfully.');
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified brand.
+     * (Optional if you’re using modals for editing)
      */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $brand = Brand::findOrFail($id);
+        return view('admin.edit_brand', compact('brand'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified brand in storage.
      */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'brand_name' => 'required|string|max:255',
+        ]);
+
+        $brand = Brand::findOrFail($id);
+        $brand->update([
+            'name' => $request->brand_name,
+        ]);
+
+        return redirect()->route('brands.index')->with('success', 'Brand updated successfully.');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Remove the specified brand from storage.
      */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $brand = Brand::findOrFail($id);
+        $brand->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('brands.index')->with('success', 'Brand deleted successfully.');
     }
 }

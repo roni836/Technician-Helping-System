@@ -3,7 +3,11 @@
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\DecisionTreeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ModelNoController;
+use App\Http\Controllers\ProblemController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -49,6 +53,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
    Route::post('/admin/user/{id}/update', [AdminController::class, 'update'])->name('admin.update');
    Route::delete('/admin/user/{id}/delete', [AdminController::class, 'destroy'])->name('admin.delete');
    Route::get('/admin/devices', [AdminController::class, 'manageDevices'])->name('admin.manageDevices');
-
+   Route::get('/admin/problems', [AdminController::class, 'manageProblems'])->name('admin.manageProblems');
+   Route::get('/admin/brands', [AdminController::class, 'manageBrands'])->name('admin.manageBrands');
+   Route::get('/admin/modelnos', [AdminController::class, 'manageModelNos'])->name('admin.manageModelNos');
+  
 
 });
+
+
+
+
+Route::resource('devices', DeviceController::class);
+Route::resource('problems', ProblemController::class);
+ Route::resource('brands', BrandController::class);
+ Route::resource('modelnos', ModelNoController::class);
+

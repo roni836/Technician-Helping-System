@@ -3,62 +3,70 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Problem;
 
 class ProblemController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the problems.
      */
     public function index()
     {
-        //
+        $problems = Problem::all();
+        return view('admin.manage_problems', compact('problems'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Store a newly created problem in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'problem_name' => 'required|string|max:255',
+        ]);
+
+        Problem::create([
+            'name' => $request->problem_name,
+        ]);
+
+        return redirect()->route('problems.index')->with('success', 'Problem added successfully.');
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified problem.
+     * (Optional if you are using modals for editing)
      */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $problem = Problem::findOrFail($id);
+        return view('admin.edit_problem', compact('problem'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified problem in storage.
      */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'problem_name' => 'required|string|max:255',
+        ]);
+
+        $problem = Problem::findOrFail($id);
+        $problem->update([
+            'name' => $request->problem_name,
+        ]);
+
+        return redirect()->route('problems.index')->with('success', 'Problem updated successfully.');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Remove the specified problem from storage.
      */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $problem = Problem::findOrFail($id);
+        $problem->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('problems.index')->with('success', 'Problem deleted successfully.');
     }
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use App\Models\Problem;
+use App\Models\Brand;
+use App\Models\ModelNo;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -16,6 +19,19 @@ class AdminController extends Controller
     public function manageDevices(){
         $devices = Device::all();
         return view("admin.manage_devices", compact("devices"));
+    }
+    public function manageProblems(){
+        $problems = Problem::all();
+        return view("admin.manage_problems", compact("problems"));
+    }
+
+    public function manageBrands(){
+        $brands = Brand::all();
+        return view("admin.manage_brands", compact("brands"));
+    }
+    public function manageModelNos(){
+        $modelnos = ModelNo::all();
+        return view("admin.manage_modelnos", compact("modelnos"));
     }
 
     public function index(){
