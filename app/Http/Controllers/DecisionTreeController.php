@@ -52,6 +52,7 @@ class DecisionTreeController extends Controller
     {
         $brandModel = BrandModel::where('brand_id', $request->input('brand_id'))
             ->where('modelno_id', $request->input('modelno_id'))
+            ->where('device_id', $request->input('device_id')) 
             ->first();
           
     

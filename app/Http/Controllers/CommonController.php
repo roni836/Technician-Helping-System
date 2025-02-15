@@ -50,6 +50,7 @@ class CommonController extends Controller
         $validator =Validator::make($request->all(),[
           'model_number' => 'required|string|max:255',
           'brand_id' => 'required',
+          'device_id' => 'required',
         ]);
 
         if($validator->fails()){
@@ -64,6 +65,7 @@ class CommonController extends Controller
             BrandModel::create([
                 'brand_id' => $request->brand_id,
                 'modelno_id' =>$modelNo->id,
+               'device_id' => $request->device_id,
                 
             ]);
         }

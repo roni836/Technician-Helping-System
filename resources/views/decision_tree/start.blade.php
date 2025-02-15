@@ -37,6 +37,15 @@
                     <option value="{{ $device->id }}">{{ $device->name }}</option>
                 @endforeach
             </select>
+
+            <label for="brand">Brand:</label>
+            <select name="brand_id" id="brand"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
+                <option value="">Select a Brand</option>
+                @foreach ($brands as $brand)
+                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                @endforeach
+            </select>
             <label for="modelno">ModelNo:</label>
             <select name="modelno_id" id="modelno"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
@@ -47,14 +56,7 @@
             </select>
 
             
-            <label for="brand">Brand:</label>
-            <select name="brand_id" id="brand"
-                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
-                <option value="">Select a Brand</option>
-                @foreach ($brands as $brand)
-                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                @endforeach
-            </select>
+           
 
             <label for="problem">Problem:</label>
             <select name="problem_id" id="problem"
@@ -194,6 +196,22 @@
                         @if ($brands->isNotEmpty())
                             @foreach ($brands as $modelNo)
                                 <option value="{{ $modelNo->id }}" {{ old('brand_id') == $modelNo->id ? 'selected' : '' }}>
+                                    {{ $modelNo->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="device_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        Device:
+                    </label>
+                    <select name="device_id"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">-- Select a Device --</option>
+                        @if ($devices->isNotEmpty())
+                            @foreach ($devices as $modelNo)
+                                <option value="{{ $modelNo->id }}" {{ old('device_id') == $modelNo->id ? 'selected' : '' }}>
                                     {{ $modelNo->name }}
                                 </option>
                             @endforeach

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BrandModel extends Model {
     use HasFactory;
     
-    protected $fillable = ['brand_id', 'modelno_id'];
+    protected $fillable = ['brand_id', 'modelno_id','device_id'];
 
     public function brand() {
         return $this->belongsTo(Brand::class);
@@ -21,5 +21,9 @@ class BrandModel extends Model {
     public function questionTree()
     {
         return $this->hasOne(QuestionTree::class);
+    }
+    public function device()
+    {
+        return $this->belongsTo(Device::class);
     }
 }
