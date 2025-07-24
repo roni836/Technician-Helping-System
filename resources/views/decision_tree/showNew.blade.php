@@ -14,6 +14,8 @@
         <span class="text-xl text-start text-teal-700 font-medium mb-4">
             Problem: {{ $brandProblem->problem->name ?? 'Not Available' }}
         </span>
+        
+       
        
         <div class="bg-white p-8 rounded-lg shadow-lg border border-teal-300 max-w-lg w-full">
             @if(Auth::user()->is_admin)

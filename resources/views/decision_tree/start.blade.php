@@ -79,6 +79,22 @@
             <form action="{{ route('problem.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">
+                    <label for="device_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        Device:
+                    </label>
+                    <select name="device_id"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">-- Select a Device --</option>
+                        @if ($devices->isNotEmpty())
+                            @foreach ($devices as $data)
+                                <option value="{{ $data->id }}" {{ old('device_id') == $data->id ? 'selected' : '' }}>
+                                    {{ $data->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div class="mb-4">
                     <label for="brand_id" class="block text-sm font-medium text-gray-700 mb-2">
                         Brand:
                     </label>
@@ -96,20 +112,21 @@
                 </div>
                 <div class="mb-4">
                     <label for="device_id" class="block text-sm font-medium text-gray-700 mb-2">
-                        Device:
+                        ModelNo:
                     </label>
-                    <select name="device_id"
+                    <select name="modelno_id"
                         class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">-- Select a Device --</option>
-                        @if ($devices->isNotEmpty())
-                            @foreach ($devices as $data)
-                                <option value="{{ $data->id }}" {{ old('device_id') == $data->id ? 'selected' : '' }}>
-                                    {{ $data->name }}
+                        <option value="">-- Select a ModelNo--</option>
+                        @if ($modelnos->isNotEmpty())
+                            @foreach ($modelnos as $data)
+                                <option value="{{ $data->id }}" {{ old('modelno_id') == $data->id ? 'selected' : '' }}>
+                                    {{ $data->model_number }}
                                 </option>
                             @endforeach
                         @endif
                     </select>
                 </div>
+               
                 <div class="mb-6">
                     <label for="name" class="block font-medium text-gray-600 mb-2">Enter Problem:</label>
                     <input type="text" name="name" id="name" required
@@ -163,7 +180,7 @@
                 
                 <div class="mb-6">
                     <label for="device_name" class="block font-medium text-gray-600 mb-2">Enter Device Name:</label>
-                    <input type="text" name="name" id="brand_name" required
+                    <input type="text" name="name" id="device_name" required
                         class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
                 </div>
                 <div>
@@ -186,38 +203,7 @@
             <h1 class="text-2xl font-bold text-gray-800 mb-6">Add Model No</h1>
             <form action="{{ route('modelno.store') }}" method="POST">
                 @csrf
-                <div class="mb-4">
-                    <label for="brand_id" class="block text-sm font-medium text-gray-700 mb-2">
-                        Brand:
-                    </label>
-                    <select name="brand_id"
-                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">-- Select a Brand --</option>
-                        @if ($brands->isNotEmpty())
-                            @foreach ($brands as $modelNo)
-                                <option value="{{ $modelNo->id }}" {{ old('brand_id') == $modelNo->id ? 'selected' : '' }}>
-                                    {{ $modelNo->name }}
-                                </option>
-                            @endforeach
-                        @endif
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label for="device_id" class="block text-sm font-medium text-gray-700 mb-2">
-                        Device:
-                    </label>
-                    <select name="device_id"
-                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">-- Select a Device --</option>
-                        @if ($devices->isNotEmpty())
-                            @foreach ($devices as $modelNo)
-                                <option value="{{ $modelNo->id }}" {{ old('device_id') == $modelNo->id ? 'selected' : '' }}>
-                                    {{ $modelNo->name }}
-                                </option>
-                            @endforeach
-                        @endif
-                    </select>
-                </div>
+              
                 <div class="mb-6">
                     <label for="model_number" class="block font-medium text-gray-600 mb-2">Enter Model Number:</label>
                     <input type="text" name="model_number" id="model_number" required

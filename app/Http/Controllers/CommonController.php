@@ -6,7 +6,6 @@ use App\Models\Brand;
 use App\Models\Device;
 use App\Models\ModelNo;
 use App\Models\BrandProblem;
-use App\Models\BrandModel;
 use App\Models\Problem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -49,26 +48,18 @@ class CommonController extends Controller
     public function modelnoStore(Request $request){
         $validator =Validator::make($request->all(),[
           'model_number' => 'required|string|max:255',
-          'brand_id' => 'required',
-          'device_id' => 'required',
         ]);
 
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
-          $modelNo = ModelNo::create([
+          ModelNo::create([
           'model_number' =>$request->model_number,
-         'brand_id' => $request->brand_id,
+        
         
         ]);
-        if($modelNo){
-            BrandModel::create([
-                'brand_id' => $request->brand_id,
-                'modelno_id' =>$modelNo->id,
-               'device_id' => $request->device_id,
-                
-            ]);
-        }
+       
+        
         return redirect()->back()->with('success','model added Successfully');
     }
 
@@ -80,6 +71,7 @@ class CommonController extends Controller
             'name' => 'required|string|max:255',
             'brand_id' => 'required',
             'device_id' => 'required',
+            'modelno_id' => 'required',
         ]);
          
         if ($validator->fails()) {
@@ -97,9 +89,11 @@ class CommonController extends Controller
                 'brand_id' => $request->brand_id,
                 'problem_id' => $data->id,
                 'device_id' => $request->device_id,
+                'modelno_id' => $request->modelno_id,
             ]);
+            
         }
-
+        
         return redirect()->back()->with('success', 'Problem added successfully!');
     }
    

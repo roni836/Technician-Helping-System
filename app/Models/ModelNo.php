@@ -9,4 +9,6 @@ class ModelNo extends Model
     use HasFactory;
     protected $table = 'modelnos';
     protected $fillable = ['model_number'];
+
+    
 }

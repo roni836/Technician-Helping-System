@@ -84,8 +84,6 @@
                 <tr>
                     <th class="border p-3">Id</th>
                     <th class="border p-3">Name</th>
-                    <th class="border p-3">Created</th>
-                    <th class="border p-3">Updated</th>
                     <th class="border p-3">Action</th>
                 </tr>
             </thead>
@@ -94,8 +92,6 @@
                 <tr>
                     <td class="border p-3">{{ $brand->id }}</td>
                     <td class="border p-3">{{ $brand->name }}</td>
-                    <td class="border p-3">{{ $brand->created_at }}</td>
-                    <td class="border p-3">{{ $brand->updated_at }}</td>
                     <td class="border p-3">
                         <!-- Edit Button (Populates and shows edit modal) -->
                         <button type="button" class="edit-brand-button text-blue-600 hover:underline" data-modal-target="edit-brand-modal" data-modal-toggle="edit-brand-modal" data-id="{{ $brand->id }}" data-name="{{ $brand->name }}">

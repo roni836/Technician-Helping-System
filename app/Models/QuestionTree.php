@@ -15,4 +15,7 @@ class QuestionTree extends Model
     public function rootQuestion(){
         return $this->belongsTo(Question::class, 'question_id');
     }
+
+   
+
 }

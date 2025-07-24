@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\BrandProblem;
-use App\Models\BrandModel;
 use App\Models\Problem;
 use App\Models\Question;
 use App\Models\Device;
@@ -31,12 +30,13 @@ class DecisionTreeController extends Controller
         $brandProblem = BrandProblem::where('brand_id', $request->input('brand_id'))
             ->where('problem_id', $request->input('problem_id'))
           ->where('device_id', $request->input('device_id')) 
+          ->where('modelno_id', $request->input('modelno_id')) 
             ->first();
 
         if (!$brandProblem) {
             return redirect()->route('decision_tree.start')->with('error', 'No decision tree found for this combination.');
         }
-
+       
         $tree = $brandProblem->questionTree;
         $question = $tree->rootQuestion ?? null;
 
@@ -48,32 +48,10 @@ class DecisionTreeController extends Controller
 
         return view('decision_tree.showNew', compact('question','brandProblem'));
     }
-    public function showModel(Request $request)
-    {
-        $brandModel = BrandModel::where('brand_id', $request->input('brand_id'))
-            ->where('modelno_id', $request->input('modelno_id'))
-            ->where('device_id', $request->input('device_id')) 
-            ->first();
-          
-    
-        if (!$brandModel) {
-            return redirect()->route('decision_tree.start')->with('error', 'No decision tree found for this combination.');
-        }
-    
-        $tree = $brandModel->questionTree;
-        $question = $tree->rootQuestion ?? null;
-    
-        if (!$question) {
-            $modelno_id = $request->input('modelno_id');
-    
-            return view('decision_tree.showNew', compact('question', 'modelno_id', 'brandModel'));
-        }
-    
-        return view('decision_tree.showNew', compact('question', 'brandModel'));
-    }
-    
+  
 
-
+  
+    
     public function answer(Request $request, $id)
     {
         $question = Question::findOrFail($id);
@@ -119,28 +97,36 @@ class DecisionTreeController extends Controller
         return redirect()->back()->with('success', 'New question added successfully.');
     }
 
-    public function addStartingQuestion(Request $request)
-    {
-        $validated = $request->validate([
-            'new_question' => 'required|string|max:255',
+
+public function addStartingQuestion(Request $request)
+{
+    $validated = $request->validate([
+        'new_question' => 'required|string|max:255',
+        'brand_id' => 'required|exists:brands,id',
+        'problem_id' => 'required|exists:problems,id',
+        'device_id' => 'required|exists:devices,id',
+        'modelno_id' => 'required|exists:model_nos,id',
+    ]);
+
+    $newQuestion = Question::create([
+        'question_text' => $validated['new_question']
+    ]);
+
+    $brandProblem = BrandProblem::where('brand_id', $validated['brand_id'])
+        ->where('problem_id', $validated['problem_id'])
+        ->where('device_id', $validated['device_id'])
+        ->where('modelno_id', $validated['modelno_id'])
+        ->first();
+
+    if ($newQuestion && $brandProblem) {
+        QuestionTree::create([
+            'brand_problem_id' => $brandProblem->id,
+            'question_id' => $newQuestion->id
         ]);
-
-        $newQuestion = Question::create(
-            [
-                'question_text' => $validated['new_question']
-            ]
-        );
-
-        $brandProblemId = BrandProblem::where('problem_id', $request->problem_id)->first();
-        if ($newQuestion) {
-            QuestionTree::create([
-                'brand_problem_id' =>  $brandProblemId->id,
-                'question_id' => $newQuestion->id
-            ]);
-        }
-
-        return redirect()->back()->with('success', 'New question added successfully.');
     }
+
+    return redirect()->back()->with('success', 'New question added successfully.');
+}
 
     public function getProblems(Request $request)
     {
