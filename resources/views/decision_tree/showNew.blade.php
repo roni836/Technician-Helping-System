@@ -41,9 +41,9 @@
                     
 
                         @csrf
-                        <label for="question_text">Question Text:</label>
+                        <label for="question_text" class="text-gray-800">Question Text:</label>
                         <input type="text" name="question_text" id="question_text" value="{{ $question->question_text }}"
-                               class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-3"
+                               class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-3 text-gray-800"
                                required>
                          
                         <div class="flex justify-between">

@@ -29,26 +29,26 @@
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Select Brand and Problem</h1>
         <form action="{{ route('decision_tree.show') }}" method="POST">
             @csrf
-            <label for="device">Device:</label>
+            <label for="device" class="text-gray-800">Device:</label>
             <select name="device_id" id="device"
-                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5 text-gray-800">
                 <option value="">Select a Device</option>
                 @foreach ($devices as $device)
                     <option value="{{ $device->id }}">{{ $device->name }}</option>
                 @endforeach
             </select>
 
-            <label for="brand">Brand:</label>
+            <label for="brand" class="text-gray-800">Brand:</label>
             <select name="brand_id" id="brand"
-                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5 text-gray-800">
                 <option value="">Select a Brand</option>
                 @foreach ($brands as $brand)
                     <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                 @endforeach
             </select>
-            <label for="modelno">ModelNo:</label>
+            <label for="modelno" class="text-gray-800">ModelNo:</label>
             <select name="modelno_id" id="modelno"
-                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5">
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-5 text-gray-800">
                 <option value="">Select ModelNo</option>
                 @foreach ($modelnos as $modelno)
                     <option value="{{ $modelno->id }}">{{ $modelno->model_number }}</option>
@@ -58,9 +58,9 @@
             
            
 
-            <label for="problem">Problem:</label>
+            <label for="problem" class="text-gray-800">Problem:</label>
             <select name="problem_id" id="problem"
-                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-800">
                 <option value="">Select a Problem</option>
             </select>
 
